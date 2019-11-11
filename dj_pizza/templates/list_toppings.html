@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2> Example Model - ListView </h2>
+	<ul>
+		{% for examplemodel in object_list %}
+			<li>
+			 {{ examplemodel.id }} -- {{ examplemodel.topping_description|lower }} -- {{ examplemodel.topping_price }}
+			 <a href="{% url 'update_topping' examplemodel.id %}">Изменить</a>
+			</li>
+		{% empty %}
+		<p>В списке нет ни  одного топпинга. Пожалуйста, <a href="{% url 'create' %}">добавьте</a>.</p>
+		{% endfor %}
+	</ul>
+{% endblock %}
