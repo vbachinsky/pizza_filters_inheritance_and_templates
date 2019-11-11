@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Пиццерия 'У Ашота'!</title>
+	</head>
+		
+	<body>
+		
+		{% include "home.html" %}
+
+		{% block header %}{% endblock header %}
+
+		<h1> Welcome to pizza 'У Ашота'!</h1>
+			<p> <a href="{% url 'home' %}"> Домой </a></p>
+			<p> <a href="{% url 'list' %}"> Список топпингов </a></p>  
+			<p> <a href="{% url 'create' %}"> Добавить топпинг </a></p>
+		
+		{% block content %}{% endblock content %}
+
+	</body>
+
+
+</html>

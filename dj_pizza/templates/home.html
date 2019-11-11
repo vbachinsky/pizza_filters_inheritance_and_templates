@@ -1,0 +1,11 @@
+{%if user.is_authenticated %}
+
+    Здравствуй, {{ user.username|title }}!!!
+    <p><a href="{% url 'logout' %}">logout</a></p>
+
+{% else %}
+
+    <p>Вы не залогинены</p>
+    <p><a href="{% url 'login' %}">login</a></p>
+        
+{% endif %}
