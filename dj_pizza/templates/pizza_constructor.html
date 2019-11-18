@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+<h1>Конструктор пиццы</h1>
+
+<ul>
+	{% for pizza in pizza_list %}
+		<li> {{ pizza.id }} {{ pizza.description }} -- {{ pizza.price }} </li>
+	{% empty %}
+		<li>Нет собранных пицц.</li>
+</ul>
