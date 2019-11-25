@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2> Список топпингов: </h2>
+	<ul>
+		{% for topping in toppings %}
+			<li>
+			 {{ topping.id }} -- {{ topping.description|lower }} -- {{ topping.price }}
+			 <a href="{% url 'update_topping' topping.id %}">Изменить</a>
+			</li>
+		{% empty %}
+		<p>В списке нет ни  одного топпинга. Пожалуйста, <a href="{% url 'create_topping' %}">добавьте</a>.</p>
+		{% endfor %}
+	</ul>
+	<div>
+		<h2>Сортировка:</h2>
+		<a href="./?ordering=description">по имени</a><br>
+		<a href="./?ordering=price">по цене</a><br>
+		<a href="./?ordering=-price">по -цене</a><br>
+	</div>
+
+{% endblock %}
