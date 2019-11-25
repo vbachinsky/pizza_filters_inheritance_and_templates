@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Ваша корзина</h2>
+
+<div>
+	{% for pizza in pizzas %}
+		<div>
+			<p> {{ pizza.name }} </p>
+			<form method = "post" action="/add_pizza/">
+				{% csrf_token %}
+				<input type="text" value="{{ pizza.id }}" hidden name="pizza_id">
+				<input type="number" name="count">
+				<input type="submit" value="В заказ">
+			</form>
+		</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

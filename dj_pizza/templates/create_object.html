@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h2>Форма добавления топпинга</h2>
+	<h2>Форма добавления {{ object_name }}</h2>
 	<form method = "post" enctype="multipart/form-data">
 		{% csrf_token %}
-		<input type="number" name="pizza_id" value="{{ pizza.id }}">
-		<input type="number" name="count">
+		{{ form.as_p }}
 		<button type="submit">Создать новую запись</button>
 	</form>
 {% endblock %}
