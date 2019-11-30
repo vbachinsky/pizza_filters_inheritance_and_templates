@@ -25,7 +25,7 @@
 			{% else %}{% if object_name1 == 'коржей' %}
 				<a href="{% url 'create_dough' %}">добавьте</a>.
 			{% else %}{% if object_name1 == 'заказов' %}
-				<a href="{% url 'add_pizza' %}">добавьте</a>.
+				<a href="{% url 'create_order' %}">добавьте</a>.
 			{% endif %}{% endif %}{% endif %}{% endif %}
 		</p>
 		{% endfor %}

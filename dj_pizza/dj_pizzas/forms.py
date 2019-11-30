@@ -2,25 +2,6 @@ from django import forms
 from .models import *
 
 
-class BasketForm(forms.Form):
-	pizza_id = forms.IntegerField(min_value=0)
-	count = forms.IntegerField(min_value=0)
-
-
-class UpdateOrderForm(forms.ModelForm):
-	class Meta:
-		model = Order
-		fields = ['id', 'price', 'pizzas']
-		labels = {'id': 'номер заказа' , 'price': 'цена', 'pizzas': 'наборы пицц'}
-
-
-class EditInstancePizzaForm(forms.ModelForm):
-	class Meta:
-		model = InstancePizza
-		fields = ['name', 'count']
-		labels = {'name': 'наименование пиц', 'count':'число пиц'}
-
-
 class CreateToppingForm(forms.ModelForm):
 	class Meta:
 		model = Topping
@@ -33,6 +14,20 @@ class EditToppingForm(forms.ModelForm):
 		model = Topping
 		fields = ['description', 'price']
 		labels = {'description': 'описание топинга', 'price': 'цена'}
+
+
+class CreateOrderForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		fields = ['name_of_your_order']
+		labels = {'name_of_your_order': 'наименование заказа'}
+
+
+class EditOrderForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		fields = ['id', 'name_of_your_order', 'price']
+		labels = {'id': 'номер заказа' , 'name_of_your_order': 'наименование заказа', 'price': 'цена'}
 
 
 class CreateDoughForm(forms.ModelForm):
@@ -65,3 +60,9 @@ class EditSnackForm(forms.ModelForm):
 
 class UpdateObject(forms.Form):
 	price_change = forms.DecimalField(label='Введите ценовую поправку ', max_digits=5, decimal_places=2)
+
+
+class SorterObject(forms.Form):
+	ORDER = (('id', 'id'), ('price', 'цена'), ('description', 'по имени'))
+
+	order = forms.ChoiceField(label='Порядок сортировки: ', choices=ORDER)
