@@ -1,0 +1,7 @@
+<body>
+    <html>
+    <div>
+        <h2>Hi, {{ user.email }}! To complete registration, please follow <a href="{{ domain }}{% url 'confirm-registration-url' user.token %}">this</a> link!</h2>
+    </div>
+    </html>
+</body>
