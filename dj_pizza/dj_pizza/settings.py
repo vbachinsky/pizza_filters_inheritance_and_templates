@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,9 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
-    'dj_pizza',
     'dj_pizzas',
+    'dj_pizza',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +67,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'dj_pizza.context_processor.contex_core'        #our context proxessor
             ],
         },
     },
@@ -122,14 +119,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-AUTH_USER_MODEL = 'accounts.User'
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -137,31 +130,3 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
-
-
-
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': True,
-#    'formatters': {
-#        'simple': {
-#            'format': '[%(levelname)s:%(name)s:%(lineno)d] %(message)s'
-#        },
-#    },
-#    'handlers': {
-#        # ...
-#        'console': {
-#            'level': 'DEBUG',
-#            'class': 'logging.StreamHandler',
-#            'formatter': 'simple',
-#        },
-#    },
-#    'loggers': {
-#        # ...
-#        'django.db': {
-#            'handlers': ['console'],
-#            'level': 'DEBUG',  # <----<<<
-#            'propagate': False,
-#        }
-#    }
-#}

@@ -11,24 +11,17 @@
 
 		{% block header %}{% endblock header %}
 
-		<h2> Welcome to pizza 'У Ашота'!</h2>
+		<h1> Welcome to pizza 'У Ашота'!</h1>
 			<p> <a href="{% url 'home' %}"> Домой </a></p>
+			<p> <a href="{% url 'list' %}"> Список топпингов </a></p>  
+			<p> <a href="{% url 'create' %}"> Добавить топпинг </a></p>
 			<br>
-			<p><a href="{% url 'add_pizza' %}">Добавить пиццы в корзину</a></p>
-			<p> <a href="{% url 'basket' %}"> Список заказов </a></p>  
-			<br>
-			<p> <a href="{% url 'create_dough' %}"> Добавить корж </a></p>
-			<p> <a href="{% url 'list_dough' %}"> Список коржей </a></p>  
-			<br>
-			<p> <a href="{% url 'create_snacks' %}"> Добавить закуску </a></p>
-			<p> <a href="{% url 'list_snacks' %}"> Список закусок </a></p>  
-			<br>
-			<p> <a href="{% url 'create_topping' %}"> Добавить топпинг </a></p>
-			<p> <a href="{% url 'sorter' %}"> Список топпингов </a></p>  
-			<p><a href="{% url 'common_update' %}">Общее обновление топпингов</a></p>
+			<p><a href="{% url 'common_update' %}">Общее обновление</a></p>
+			<p><a href="{% url 'sorter' %}">Сортировка топпингов</a></p>
 		
 		{% block content %}{% endblock content %}
 
 	</body>
+
 
 </html>

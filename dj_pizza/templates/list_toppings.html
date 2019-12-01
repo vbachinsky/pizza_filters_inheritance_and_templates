@@ -3,20 +3,13 @@
 {% block content %}
 	<h2> Список топпингов: </h2>
 	<ul>
-		{% for topping in toppings %}
+		{% for topping in object_list %}
 			<li>
-			 {{ topping.id }} -- {{ topping.description|lower }} -- {{ topping.price }}
+			 {{ topping.id }} -- {{ topping.topping_description|lower }} -- {{ topping.topping_price }}
 			 <a href="{% url 'update_topping' topping.id %}">Изменить</a>
 			</li>
 		{% empty %}
-		<p>В списке нет ни  одного топпинга. Пожалуйста, <a href="{% url 'create_topping' %}">добавьте</a>.</p>
+		<p>В списке нет ни  одного топпинга. Пожалуйста, <a href="{% url 'create' %}">добавьте</a>.</p>
 		{% endfor %}
 	</ul>
-	<div>
-		<h2>Сортировка:</h2>
-		<a href="./?ordering=description">по имени</a><br>
-		<a href="./?ordering=price">по цене</a><br>
-		<a href="./?ordering=-price">по -цене</a><br>
-	</div>
-
 {% endblock %}

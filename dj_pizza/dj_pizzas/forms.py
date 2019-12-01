@@ -1,67 +1,28 @@
 from django import forms
-from .models import *
+from .models import Topping
+from django import forms
 
 
-class BasketForm(forms.Form):
-	pizza_id = forms.IntegerField(min_value=0)
-	count = forms.IntegerField(min_value=0)
+ORDER = (('id', 'id'), ('topping_price', 'цена'), ('topping_description', 'по имени'))
 
 
-class UpdateOrderForm(forms.ModelForm):
-	class Meta:
-		model = Order
-		fields = ['id', 'price', 'pizzas']
-		labels = {'id': 'номер заказа' , 'price': 'цена', 'темплейты пицы': 'pizzas'}
-
-
-class EditInstancePizzaForm(forms.ModelForm):
-	class Meta:
-		model = InstancePizza
-		fields = ['name', 'count']
-		labels = {'name': 'наименование пиц', 'count':'число пиц'}
-
-
-class CreateToppingForm(forms.ModelForm):
+class CreateObject(forms.ModelForm):
 	class Meta:
 		model = Topping
-		fields = ['id', 'description', 'price']
-		labels = {'id': 'номер топпинга','description': 'описание топинга', 'price': 'цена'}
+		fields = ['id', 'topping_description', 'topping_price']
+		labels = {'id': 'номер топпинга','topping_description': 'описание топинга', 'topping_price': 'цена'}
 
 
-class EditToppingForm(forms.ModelForm):
+class EditObject(forms.ModelForm):
 	class Meta:
 		model = Topping
-		fields = ['description', 'price']
-		labels = {'description': 'описание топинга', 'price': 'цена'}
-
-
-class CreateDoughForm(forms.ModelForm):
-	class Meta:
-		model = Dough
-		fields = ['id' ,'description', 'price']
-		labels = {'id': 'ID коржа', 'description': 'описание коржа', 'price': 'цена'}
-
-
-class EditDoughForm(forms.ModelForm):
-	class Meta:
-		model = Dough
-		fields = ['description', 'price']
-		labels = {'description': 'описание коржа', 'price': 'цена'}
-
-
-class CreateSnacksForm(forms.ModelForm):
-	class Meta:
-		model = Snacks
-		fields = ['id', 'description', 'price']
-		labels = {'id': 'ID закуски', 'description': 'описание закуски', 'price': 'цена'}
-
-
-class EditSnackForm(forms.ModelForm):
-	class Meta:
-		model = Snacks
-		fields = ['description', 'price']
-		labels = {'description': 'описание закуски', 'price': 'цена'}
+		fields = ['topping_description', 'topping_price']
+		labels = {'topping_description': 'описание топинга', 'topping_price': 'цена'}
 
 
 class UpdateObject(forms.Form):
 	price_change = forms.DecimalField(label='Введите ценовую поправку ', max_digits=5, decimal_places=2)
+
+
+class SorterObject(forms.Form):
+	order = forms.ChoiceField(label='Порядок сортировки: ', choices=ORDER)
