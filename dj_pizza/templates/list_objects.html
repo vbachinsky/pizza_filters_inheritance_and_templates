@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2> Список {{ object_name1 }}: </h2>
+	<ul>
+		{% for object in object_list %}
+			<li>	
+			{{ object.id }} -- {{ object.description|lower }} -- {{ object.price }}
+			{% if object_name1 == 'топпингов' %}
+				<a href="{% url 'update_topping' object.id %}">Изменить</a>
+			{% else %}{% if object_name1 == 'закусок' %}
+				<a href="{% url 'update_snack' object.id %}">Изменить</a>
+			{% else %}{% if object_name1 == 'коржей' %}
+				<a href="{% url 'update_dough' object.id %}">Изменить</a>
+			{% else %}{% if object_name1 == 'заказов' %}
+				<a href="{% url 'update_order' object.id %}">Изменить</a>
+			{% endif %}{% endif %}{% endif %}{% endif %}
+			</li>
+		{% empty %}
+		<p>В списке нет ни  одного {{ object_name2 }}. Пожалуйста, 
+			{% if object_name1 == 'топпингов' %}
+				<a href="{% url 'create_topping' %}">добавьте</a>.
+			{% else %}{% if object_name1 == 'закусок' %}
+				<a href="{% url 'create_snacks' %}">добавьте</a>.
+			{% else %}{% if object_name1 == 'коржей' %}
+				<a href="{% url 'create_dough' %}">добавьте</a>.
+			{% else %}{% if object_name1 == 'заказов' %}
+				<a href="{% url 'add_pizza' %}">добавьте</a>.
+			{% endif %}{% endif %}{% endif %}{% endif %}
+		</p>
+		{% endfor %}
+	</ul>
+{% endblock %}

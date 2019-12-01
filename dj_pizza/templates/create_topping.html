@@ -4,7 +4,8 @@
 	<h2>Форма добавления топпинга</h2>
 	<form method = "post" enctype="multipart/form-data">
 		{% csrf_token %}
-		{{ form.as_p }}
+		<input type="number" name="pizza_id" value="{{ pizza.id }}">
+		<input type="number" name="count">
 		<button type="submit">Создать новую запись</button>
 	</form>
 {% endblock %}

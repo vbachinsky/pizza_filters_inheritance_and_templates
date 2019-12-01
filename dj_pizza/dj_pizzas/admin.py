@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from dj_pizzas.models import Topping, Dough, Pizza, OrderedToppings, Snacks, OrderedSnacks, Order, OrderPayment, Person, ClientAccount, ClientAccountPerson, Employee, ClientTransaction
+from dj_pizzas.models import Topping, Dough, Pizza, InstancePizza, Snacks, OrderedSnacks, Order, OrderPayment, Person, ClientAccount, ClientAccountPerson, Employee, ClientTransaction
 
 
 admin.site.register(Order)
 admin.site.register(Topping)
 admin.site.register(Dough)
-admin.site.register(OrderedToppings)
 admin.site.register(Pizza)
+admin.site.register(InstancePizza)
 admin.site.register(Snacks)
 admin.site.register(OrderedSnacks)
 admin.site.register(OrderPayment)

@@ -1,37 +1,156 @@
 from django.http import HttpResponse
 from django.views.generic.edit import UpdateView, FormView
-from django.views.generic import View, ListView, TemplateView, CreateView
+from django.views.generic import ListView, TemplateView, CreateView
 from dj_pizzas.models import *
-from dj_pizzas.forms import CreateObject, EditObject, UpdateObject, SorterObject
-
-sort_order = 'id'
-
-
-class ListToppings(ListView):
-	model = Topping
-	template_name = 'list_toppings.html'
-
-	def get_queryset(self):
-		global sort_order
-		order = Topping.objects.all().order_by(sort_order)
-		return order
-
-
-class CreateTopping(CreateView):
-	model = Topping
-	form_class = CreateObject
-	template_name = 'create_topping.html'
-	success_url = '/'
+from dj_pizzas.forms import *
+from django.template import Context, Template
 
 
 class Home(TemplateView):
 	template_name = 'index.html'
 
 
+class CreateBasket(FormView):
+	template_name = 'pizza_constructor.html'
+	form_class = BasketForm
+	success_url = '/basket/'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		curent_order = Order.objects.get(user=self.request.user)
+		context['instances_pizzas'] = curent_order.pizzas.all()
+		return context
+
+	def form_valid(self, form):
+		pizza = Pizza.objects.get(id=form.cleaned_data.get('pizza_id'))
+		count = form.cleaned_data.get('count')
+		instance_pizza = pizza.make_order(count)
+		order, created = Order.objects.get_or_create(user=self.request.user)
+		order.pizzas.add(instance_pizza)
+		order.update_price()
+		order.save()
+		return super().form_valid(form)
+
+
+class UpdateOrder(UpdateView):
+	model = Order
+	form_class = UpdateOrderForm
+	template_name = 'update_order.html'
+	success_url = '/basket/'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		curent_order = Order.objects.filter(user=self.request.user)
+		context['instances_pizzas'] = InstancePizza.objects.all().filter(order_template__user=self.request.user)
+		return context
+
+	def form_valid(self, form):
+		instance = super().form_valid(form)
+		order = Order.objects.get(user=self.request.user)
+		order.update_price()
+		return instance
+
+
+class ListOrders(ListView):
+	model = Order
+	template_name = 'list_objects.html'
+
+	def get_queryset(self):
+		order = Order.objects.all()
+		return order
+
+	def get_context_data(self, **kwargs):
+		context = {'object_name1': 'заказов', 'object_name2': 'заказа'}
+		return super().get_context_data(**context)
+
+
+class UpdateInstancePizza(UpdateView): 
+	model = InstancePizza
+	form_class = EditInstancePizzaForm
+	template_name = 'update.html'
+	success_url = '/basket/'
+
+	def form_valid(self, form):
+		pass
+
+
+class CreateDough(CreateView):
+	model = Dough
+	form_class = CreateDoughForm
+	template_name = 'create_object.html'
+	success_url = '/'
+
+	def get_context_data(self, **kwargs):
+		context = {'object_name': 'коржа'}
+		return super().get_context_data(**context)
+
+
+class ListDough(ListView):
+	model = Dough
+	template_name = 'list_objects.html'
+
+	def get_queryset(self):
+		order = Dough.objects.all()
+		return order
+
+	def get_context_data(self, **kwargs):
+		context = {'object_name1': 'коржей', 'object_name2': 'коржа'}
+		return super().get_context_data(**context)
+
+
+class UpdateDough(UpdateView):
+	model = Dough
+	form_class = EditDoughForm
+	template_name = 'update.html'
+	success_url = '/'
+
+
+class CreateSnacks(CreateView):
+	model = Snacks
+	form_class = CreateSnacksForm
+	template_name = 'create_object.html'
+	success_url = '/'
+
+	def get_context_data(self, **kwargs):
+		context = {'object_name': 'закусок'}
+		return super().get_context_data(**context)
+
+
+class ListSnacks(ListView):
+	model = Snacks
+	template_name = 'list_objects.html'
+
+	def get_queryset(self):
+		order = Snacks.objects.all()
+		return order
+
+	def get_context_data(self, **kwargs):
+		context = {'object_name1': 'закусок', 'object_name2': 'закуски'}
+		return super().get_context_data(**context)
+
+
+class UpdateSnack(UpdateView):
+	model = Snacks
+	form_class = EditSnackForm
+	template_name = 'update.html'
+	success_url = '/'
+
+
+class CreateTopping(CreateView):
+	model = Topping
+	form_class = CreateToppingForm
+	template_name = 'create_object.html'
+	success_url = '/'
+
+	def get_context_data(self, **kwargs):
+		context = {'object_name': 'топпинга'}
+		return super().get_context_data(**context)
+
+
 class UpdateTopping(UpdateView):
 	model = Topping
-	form_class = EditObject
-	template_name = 'update_topping.html'
+	form_class = EditToppingForm
+	template_name = 'update.html'
 	success_url = '/'
 
 
@@ -39,26 +158,25 @@ class CommonToppingUpdate(FormView):
 	model = Topping
 	form_class = UpdateObject
 	template_name = 'common_update.html'
-	success_url = '/toppings/'
+	success_url = '/sorter/'
 
 	def form_valid(self, form):
 		price_change = form.cleaned_data.get('price_change')
-		print(price_change)
 		all_toppings = Topping.objects.all()
 		for topping in all_toppings:
-			topping.topping_price = topping.topping_price + price_change
+			topping.price = topping.price + price_change
 			topping.save()
 		return super().form_valid(form)
 
 
-class ToppingSorter(FormView):
-	model = Topping
-	form_class = SorterObject
-	template_name = 'common_update.html'
-	success_url = '/toppings/'
+class ToppingSorter(TemplateView):
+	template_name = 'list_toppings.html'
+	sortering_fields = ['description', 'price', '-price']
 
-	def form_valid(self, form):
-		global sort_order
-		order = form.cleaned_data.get('order')
-		sort_order = order
-		return super().form_valid(form)
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		ordering = self.request.GET.get('ordering')
+		if ordering not in self.sortering_fields:
+			ordering = 'id'
+		context['toppings'] = Topping.objects.all().order_by(ordering)
+		return context
