@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block head_title %}Forgot password{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 blog-main">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Confirm registration</strong></h3>
+                </div>
+                <div class="panel-body">
+                    {% if error %}
+                    <div class="text-danger">
+                        <label>{{ error_message }}</label>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
