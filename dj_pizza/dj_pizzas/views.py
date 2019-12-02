@@ -15,13 +15,19 @@ class CreateBasket(FormView):
 	form_class = BasketForm
 	success_url = '/basket/'
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		curent_order = Order.objects.get(user=self.request.user)
+		context['instances_pizzas'] = curent_order.pizzas.all()
+		return context
+
 	def form_valid(self, form):
 		pizza = Pizza.objects.get(id=form.cleaned_data.get('pizza_id'))
 		count = form.cleaned_data.get('count')
 		instance_pizza = pizza.make_order(count)
 		order, created = Order.objects.get_or_create(user=self.request.user)
-		order.pizzas.add(instance_pizza)
-		order.price = order.get_price()
+		order.pizzas.add(instance_pizza) 
+		order.update_price()
 		order.save()
 		return super().form_valid(form)
 
@@ -35,13 +41,14 @@ class UpdateOrder(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		curent_order = Order.objects.filter(user=self.request.user)
-		user = 0
 		context['instances_pizzas'] = InstancePizza.objects.all().filter(order_template__user=self.request.user)
 		return context
 
 	def form_valid(self, form):
-		Order.objects.filter(user=self.request.user).update(price=Order.objects.get(user=self.request.user).get_price())
-		return super().form_valid(form)
+		instance = super().form_valid(form)
+		order = Order.objects.get(user=self.request.user)
+		order.update_price()
+		return instance
 
 
 class ListOrders(ListView):
@@ -57,11 +64,14 @@ class ListOrders(ListView):
 		return super().get_context_data(**context)
 
 
-class UpdateInstancePizza(UpdateView):
+class UpdateInstancePizza(UpdateView): 
 	model = InstancePizza
 	form_class = EditInstancePizzaForm
 	template_name = 'update.html'
-	success_url = '/'
+	success_url = '/basket/'
+
+	def form_valid(self, form):
+		pass
 
 
 class CreateDough(CreateView):

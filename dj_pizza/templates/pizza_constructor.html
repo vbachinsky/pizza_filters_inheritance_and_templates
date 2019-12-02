@@ -5,13 +5,13 @@
 <h2>Ваша корзина</h2>
 
 <div>
-	{% for pizza in pizzas %}
+	{% for pizza in instances_pizzas %}
 		<div>
 			<p> {{ pizza.name }} </p>
 			<form method = "post" action="/add_pizza/">
 				{% csrf_token %}
 				<input type="text" value="{{ pizza.id }}" hidden name="pizza_id">
-				<input type="number" name="count">
+				<input type="number" value="{{ pizza.count }}" name="count">
 				<input type="submit" value="В заказ">
 			</form>
 		</div>

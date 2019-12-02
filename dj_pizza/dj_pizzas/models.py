@@ -43,6 +43,10 @@ class InstancePizza(models.Model):
     def __str__(self):
         return 'name: {}, price: {}, full price: {}'.format(self.name, str(self.price), str(self.price * self.count))
 
+    @property
+    def full_price(self):
+        return self.price * self.count
+
 
 class Order(models.Model):
     pizzas = models.ManyToManyField(InstancePizza, related_name='order_template')
@@ -53,12 +57,9 @@ class Order(models.Model):
     def __str__(self):
         return 'OrderID: {}, price: {}'.format(str(self.id), str(self.price))
 
-    def get_price(self):
-        pizzas = self.pizzas.all()
-        price = 0
-        for pizza in pizzas:
-            price += pizza.price * pizza.count
-        return price
+    def update_price(self):
+        self.price = sum([pizza.full_price for pizza in self.pizzas.all()])
+        self.save()
 
 
 class Snacks(models.Model):
