@@ -26,7 +26,7 @@ class CreateBasket(FormView):
 		count = form.cleaned_data.get('count')
 		instance_pizza = pizza.make_order(count)
 		order, created = Order.objects.get_or_create(user=self.request.user)
-		order.pizzas.add(instance_pizza)
+		order.pizzas.add(instance_pizza) 
 		order.update_price()
 		order.save()
 		return super().form_valid(form)
