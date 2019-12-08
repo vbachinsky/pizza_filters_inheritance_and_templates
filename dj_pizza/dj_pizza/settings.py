@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -121,7 +121,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+SWITCH_HASH_KEY = 'switch_user'
 AUTH_USER_MODEL = 'accounts.User'
 
 # Static files (CSS, JavaScript, Images)
@@ -138,6 +138,13 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 
 
 #LOGGING = {

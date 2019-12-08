@@ -1,13 +1,34 @@
 from django.http import HttpResponse
-from django.views.generic.edit import UpdateView, FormView
+from django.views.generic.edit import UpdateView, FormView, DeleteView, CreateView
 from django.views.generic import ListView, TemplateView, CreateView
 from dj_pizzas.models import *
 from dj_pizzas.forms import *
+from accounts.models import User
 from django.template import Context, Template
 
 
+from django.views.decorators.cache import cache_page
+
 class Home(TemplateView):
 	template_name = 'index.html'
+
+
+class SetShipping(FormView):
+	template_name = 'shipping_information.html'
+	form_class = ShippingForm
+	success_url = '/'
+
+	def form_valid(self, form):
+		instance = super().form_valid(form)
+		curent_user = User.objects.get(id=self.request.user.id)
+		curent_user.first_name = form.cleaned_data.get('first_name')
+		curent_user.last_name = form.cleaned_data.get('last_name')
+		curent_user.email = form.cleaned_data.get('email')
+		curent_user.phone = form.cleaned_data.get('phone')
+		curent_user.street_adress = form.cleaned_data.get('street_adress')
+		curent_user.town_adress = form.cleaned_data.get('town_adress')
+		curent_user.save()
+		return instance
 
 
 class CreateBasket(FormView):
@@ -17,7 +38,7 @@ class CreateBasket(FormView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		curent_order = Order.objects.get(user=self.request.user)
+		curent_order, created = Order.objects.get_or_create(user=self.request.user)
 		context['instances_pizzas'] = curent_order.pizzas.all()
 		return context
 
@@ -26,9 +47,8 @@ class CreateBasket(FormView):
 		count = form.cleaned_data.get('count')
 		instance_pizza = pizza.make_order(count)
 		order, created = Order.objects.get_or_create(user=self.request.user)
-		order.pizzas.add(instance_pizza) 
+		order.pizzas.add(instance_pizza)
 		order.update_price()
-		order.save()
 		return super().form_valid(form)
 
 
@@ -70,8 +90,11 @@ class UpdateInstancePizza(UpdateView):
 	template_name = 'update.html'
 	success_url = '/basket/'
 
-	def form_valid(self, form):
-		pass
+
+class DeleteInstancePizza(DeleteView):
+	model = InstancePizza
+	template_name = 'instance_pizza_confirm_delete.html'
+	success_url = '/basket/'
 
 
 class CreateDough(CreateView):

@@ -97,14 +97,16 @@ class OrderPayment(models.Model):
         verbose_name_plural = "Ordered payments"
 
 
-class Person(models.Model):
-    first_name = models.CharField(null=False, max_length=20)
-    last_name = models.CharField(max_length=20)
-    adress = models.CharField(max_length=20)
-    phone = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.first_name
+# class Person(models.Model):
+#    first_name = models.CharField(null=False, max_length=20)
+#    last_name = models.CharField(max_length=20)
+#    street_adress = models.CharField(null=False, max_length=20)
+#     town_adress = models.CharField(max_length=20)
+#     phone = models.CharField(max_length=20)
+#     email = models.EmailField(null=False, max_length=20)
+#
+#     def __str__(self):
+#         return self.first_name
 
 
 class ClientAccount(models.Model):
@@ -120,7 +122,7 @@ class ClientAccount(models.Model):
 
 class ClientAccountPerson(models.Model):
     client_account = models.ForeignKey(ClientAccount, on_delete=models.CASCADE, default=0)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, default=0)
+    person = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
     class Meta:
         verbose_name = "Client account person"
@@ -128,7 +130,7 @@ class ClientAccountPerson(models.Model):
 
 
 class Employee(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, default=0)
+    person = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     employee_tax = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     employee_job_category = models.CharField(max_length=100)
 

@@ -10,8 +10,10 @@
 	</form>
 
 	{% for instance_pizza in instances_pizzas %}
-	<ul>
-	{{ instance_pizza.name }} -- {{ instance_pizza.count }} -- <a href="{% url 'update_instance_pizza' instance_pizza.id %}">Изменить</a>
-	</ul>
+		<ul>
+		{{ instance_pizza.name }} -- {{ instance_pizza.count }} -- <a href="{% url 'update_instance_pizza' instance_pizza.id %}">Изменить</a> -- <a href="{% url 'delete_instance_pizza' instance_pizza.id %}">  Удалить</a>
+		</ul>
+	{% empty %}
+		<p>Ваша корзина пустая. Заказать пиццы можно по <a href="{% url 'add_pizza' %}">этой ссылке</a></p>
 	{% endfor %}
 {% endblock %}

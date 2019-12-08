@@ -35,6 +35,9 @@ class User(AbstractUser, BaseModel):
     email = models.EmailField('Email address', unique=True)
     token = models.CharField(default=unique_token_key(), max_length=300, null=True, blank=True)
     first_login = models.BooleanField(default=False)
+    street_adress = models.CharField(null=True, blank=True, max_length=20)
+    town_adress = models.CharField(null=True, blank=True, max_length=20)
+    phone = models.CharField(max_length=20, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

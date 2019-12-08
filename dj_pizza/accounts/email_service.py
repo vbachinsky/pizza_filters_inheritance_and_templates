@@ -4,7 +4,12 @@ from __future__ import unicode_literals
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.conf import settings
-from core.email_service import EmailService
+# from core.email_service import EmailService
+
+
+class EmailService(object):
+    pass
+
 
 class AccountsEmailService(EmailService):
 

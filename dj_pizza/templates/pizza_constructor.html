@@ -5,7 +5,7 @@
 <h2>Ваша корзина</h2>
 
 <div>
-	{% for pizza in instances_pizzas %}
+	{% for pizza in pizzas %}
 		<div>
 			<p> {{ pizza.name }} </p>
 			<form method = "post" action="/add_pizza/">
