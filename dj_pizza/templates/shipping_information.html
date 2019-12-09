@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Информация о Вашем заказе:</h2>
+
+<div>
+	<div>
+		<form method ="post" action="/set_shipping/">
+			{% csrf_token %}
+			<p><input type="text" value="{{ user.first_name }}"  name="first_name">
+			<input type="text" value="{{ user.last_name }}"  name="last_name"></p>
+			<p><input type="text" value="{{ user.email }}"  name="email">
+			<input type="text" value="{{ user.phone }}"  name="phone"></p>
+			<p><input type="text" value="{{ user.street_adress }}"  name="street_adress">
+			<input type="text" value="{{ user.town_adress }}"  name="town_adress"></p>
+			<input type="submit" value="Сохранить">
+		</form>
+	</div>
+</div>
+
+{% endblock %}
