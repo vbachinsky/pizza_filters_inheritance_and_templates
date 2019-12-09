@@ -2,15 +2,13 @@ from django.conf.urls import url
 from django.urls import path
 from django.views.generic import TemplateView
 from dj_pizzas.views import *
-
 from django.views.decorators.cache import cache_page
-
 
 #It creates a scheme for ExampleModels
 #dj_pizzas/urls.py
 
 urlpatterns = [
-	path('', cache_page(1*1)(Home.as_view()), name='home'),
+	path('', cache_page(60*1)(Home.as_view()), name='home'),
 	path('create_topping/', CreateTopping.as_view(), name='create_topping'),
 	path('create_snacks/', CreateSnacks.as_view(), name='create_snacks'),
 	path('create_dough/', CreateDough.as_view(), name='create_dough'),
