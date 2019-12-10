@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'dj_pizzas.middleware.SuperMiddlewareClass',
+    'dj_pizzas.middleware.LogoutMiddlewareClass'
 ]
 
 ROOT_URLCONF = 'dj_pizza.urls'

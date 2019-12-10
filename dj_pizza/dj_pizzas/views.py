@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import UpdateView, FormView, DeleteView, CreateView
 from django.views.generic import ListView, TemplateView, CreateView
 from dj_pizzas.models import *
@@ -96,11 +96,23 @@ class UpdateInstancePizza(UpdateView):
 	template_name = 'update.html'
 	success_url = '/basket/'
 
+	def form_valid(self, form):
+		instance = super().form_valid(form)
+		order = Order.objects.get(user=self.request.user)
+		order.update_price()
+		return instance
+
 
 class DeleteInstancePizza(DeleteView):
 	model = InstancePizza
 	template_name = 'instance_pizza_confirm_delete.html'
 	success_url = '/basket/'
+
+	def delete(self, request, *args, **kwargs):
+		self.get_object().delete()
+		order = Order.objects.get(user=request.user)
+		order.update_price()
+		return HttpResponseRedirect(self.success_url)
 
 
 class CreateDough(CreateView):
