@@ -5,12 +5,18 @@ from dj_pizzas.models import *
 from dj_pizzas.forms import *
 from accounts.models import User
 from django.template import Context, Template
-
-
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 class Home(TemplateView):
 	template_name = 'index.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		cache.set('cached_client_ip', self.request.META['REMOTE_ADDR'], 60*2)
+		curent_client_ip = self.request.META['REMOTE_ADDR']
+		if curent_client_ip != cache.get('cached_client_ip'):
+			print('IP was changed on ', curent_client_ip)
+		return context
 
 
 class SetShipping(FormView):
