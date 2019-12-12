@@ -29,4 +29,5 @@ urlpatterns = [
 
 	path('update/', CommonToppingUpdate.as_view(), name='common_update'),
 	url(r'^sorter/$', ToppingSorter.as_view(), name='sorter'),
+	url(r'^alarm', TemplateView.as_view(template_name='alarm.html'))
 ]
