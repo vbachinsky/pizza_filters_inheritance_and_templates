@@ -12,9 +12,9 @@
 				<a href="{% url 'update_snack' object.id %}">Изменить</a>
 			{% else %}{% if object_name1 == 'коржей' %}
 				<a href="{% url 'update_dough' object.id %}">Изменить</a>
-			{% else %}{% if object_name1 == 'заказов' %}
+			{% else %}{% if object_name1 == 'заказов' %}{%if user.is_authenticated %}
 				<a href="{% url 'update_order' object.id %}">Изменить</a>
-			{% endif %}{% endif %}{% endif %}{% endif %}
+			{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
 			</li>
 		{% empty %}
 		<p>В списке нет ни  одного {{ object_name2 }}. Пожалуйста, 

@@ -42,7 +42,12 @@ INSTALLED_APPS = [
     'accounts',
     'dj_pizza',
     'dj_pizzas',
+    'bootstrap3',
 ]
+
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
