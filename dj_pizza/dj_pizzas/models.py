@@ -97,18 +97,6 @@ class OrderPayment(models.Model):
         verbose_name_plural = "Ordered payments"
 
 
-# class Person(models.Model):
-#    first_name = models.CharField(null=False, max_length=20)
-#    last_name = models.CharField(max_length=20)
-#    street_adress = models.CharField(null=False, max_length=20)
-#     town_adress = models.CharField(max_length=20)
-#     phone = models.CharField(max_length=20)
-#     email = models.EmailField(null=False, max_length=20)
-#
-#     def __str__(self):
-#         return self.first_name
-
-
 class ClientAccount(models.Model):
     credit_card_indicator = models.BooleanField(default=False)
     client_deposit = models.BooleanField(default=False)

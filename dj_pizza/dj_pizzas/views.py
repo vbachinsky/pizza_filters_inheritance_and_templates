@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import UpdateView, FormView, DeleteView, CreateView
 from django.views.generic import ListView, TemplateView, CreateView
 from dj_pizzas.models import *
@@ -6,6 +6,8 @@ from dj_pizzas.forms import *
 from accounts.models import User
 from django.template import Context, Template
 from django.core.cache import cache
+from dj_pizzas.functions import *
+
 
 class Home(TemplateView):
 	template_name = 'index.html'
@@ -58,7 +60,7 @@ class CreateBasket(FormView):
 		return super().form_valid(form)
 
 
-class UpdateOrder(UpdateView):
+class UpdateOrder(BaseUpdate):
 	model = Order
 	form_class = UpdateOrderForm
 	template_name = 'update_order.html'
@@ -66,15 +68,8 @@ class UpdateOrder(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		curent_order = Order.objects.filter(user=self.request.user)
 		context['instances_pizzas'] = InstancePizza.objects.all().filter(order_template__user=self.request.user)
 		return context
-
-	def form_valid(self, form):
-		instance = super().form_valid(form)
-		order = Order.objects.get(user=self.request.user)
-		order.update_price()
-		return instance
 
 
 class ListOrders(ListView):
@@ -90,7 +85,7 @@ class ListOrders(ListView):
 		return super().get_context_data(**context)
 
 
-class UpdateInstancePizza(UpdateView): 
+class UpdateInstancePizza(BaseUpdate):
 	model = InstancePizza
 	form_class = EditInstancePizzaForm
 	template_name = 'update.html'
@@ -101,6 +96,12 @@ class DeleteInstancePizza(DeleteView):
 	model = InstancePizza
 	template_name = 'instance_pizza_confirm_delete.html'
 	success_url = '/basket/'
+
+	def delete(self, request, *args, **kwargs):
+		self.get_object().delete()
+		order = Order.objects.get(user=request.user)
+		order.update_price()
+		return HttpResponseRedirect(self.success_url)
 
 
 class CreateDough(CreateView):
