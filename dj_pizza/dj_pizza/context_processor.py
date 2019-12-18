@@ -4,4 +4,4 @@ from dj_pizzas.models import Pizza
 
 
 def contex_core(request):
-    return {'pizzas': Pizza.objects.all(),}
+    return {'pizzas': Pizza.objects.all(), }

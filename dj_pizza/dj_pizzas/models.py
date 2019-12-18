@@ -31,7 +31,12 @@ class Pizza(models.Model):
         return self.name
 
     def make_order(self, count):
-        return InstancePizza.objects.create(name=self.name, price=self.price, pizza_template=self, count=count)
+        return InstancePizza.objects.create(
+            name=self.name,
+            price=self.price,
+            pizza_template=self,
+            count=count
+        )
 
 
 class InstancePizza(models.Model):
@@ -39,7 +44,7 @@ class InstancePizza(models.Model):
     count = models.PositiveIntegerField(default=1)
     name = models.CharField(null=True, blank=True, max_length=200)
     price = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
-    
+
     def __str__(self):
         return 'name: {}, price: {}, full price: {}'.format(self.name, str(self.price), str(self.price * self.count))
 
@@ -53,7 +58,7 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     price = models.DecimalField(default=0, max_digits=7, decimal_places=2, null=True, blank=True)
-    
+
     def __str__(self):
         return 'OrderID: {}, price: {}'.format(str(self.id), str(self.price))
 
@@ -62,7 +67,7 @@ class Order(models.Model):
         self.save()
 
 
-class Snacks(models.Model):
+class Snack(models.Model):
     description = models.CharField(null=False, max_length=50)
     price = models.DecimalField(default=0, max_digits=5, decimal_places=2)
 
@@ -70,11 +75,11 @@ class Snacks(models.Model):
         return self.description
 
     class Meta:
-        verbose_name_plural = "Snacks"
+        verbose_name_plural = "Snack"
 
 
 class OrderedSnacks(models.Model):
-    snack = models.ForeignKey(Snacks, on_delete=models.CASCADE, default=0)
+    snack = models.ForeignKey(Snack, on_delete=models.CASCADE, default=0)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
@@ -95,18 +100,6 @@ class OrderPayment(models.Model):
     class Meta:
         verbose_name = "Ordered payment"
         verbose_name_plural = "Ordered payments"
-
-
-# class Person(models.Model):
-#    first_name = models.CharField(null=False, max_length=20)
-#    last_name = models.CharField(max_length=20)
-#    street_adress = models.CharField(null=False, max_length=20)
-#     town_adress = models.CharField(max_length=20)
-#     phone = models.CharField(max_length=20)
-#     email = models.EmailField(null=False, max_length=20)
-#
-#     def __str__(self):
-#         return self.first_name
 
 
 class ClientAccount(models.Model):
