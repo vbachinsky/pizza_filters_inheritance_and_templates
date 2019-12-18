@@ -42,7 +42,12 @@ INSTALLED_APPS = [
     'accounts',
     'dj_pizza',
     'dj_pizzas',
+    'bootstrap3',
 ]
+
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'dj_pizzas.middleware.SuperMiddlewareClass',
+    'dj_pizzas.middleware.LogoutMiddlewareClass'
 ]
 
 ROOT_URLCONF = 'dj_pizza.urls'
