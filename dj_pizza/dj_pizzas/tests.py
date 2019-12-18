@@ -1,5 +1,4 @@
 from django.test import TestCase, Client
-
 from .models import Topping, Order, Dough, Pizza, InstancePizza, Snack
 from accounts.models import User
 
