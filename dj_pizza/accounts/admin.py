@@ -25,5 +25,6 @@ class UserAdmin(admin.ModelAdmin):
             obj.password = make_password(form.cleaned_data.get('password'))
             obj.save()
 
+
 admin.site.register(User, UserAdmin)
 admin.site.register(ResetPasswordData)

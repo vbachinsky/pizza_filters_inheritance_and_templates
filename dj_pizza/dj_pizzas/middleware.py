@@ -5,6 +5,7 @@ from django.contrib.auth import logout
 
 MAXIMUM_IDDLE_TIME = 300
 
+
 class SuperMiddlewareClass(MiddlewareMixin):
     def process_request(self, request):
         request_count = request.session.get('requests_count')

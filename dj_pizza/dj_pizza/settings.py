@@ -27,9 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -68,7 +65,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR,],
+        'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,30 +149,3 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     }
 }
-
-
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': True,
-#    'formatters': {
-#        'simple': {
-#            'format': '[%(levelname)s:%(name)s:%(lineno)d] %(message)s'
-#        },
-#    },
-#    'handlers': {
-#        # ...
-#        'console': {
-#            'level': 'DEBUG',
-#            'class': 'logging.StreamHandler',
-#            'formatter': 'simple',
-#        },
-#    },
-#    'loggers': {
-#        # ...
-#        'django.db': {
-#            'handlers': ['console'],
-#            'level': 'DEBUG',  # <----<<<
-#            'propagate': False,
-#        }
-#    }
-#}

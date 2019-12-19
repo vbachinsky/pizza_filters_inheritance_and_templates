@@ -51,4 +51,3 @@ class AccountsEmailService(EmailService):
         msg = EmailMultiAlternatives(subject, html_content, settings.NO_REPLY_EMAIL_ADDRESS, to_email)
         msg.attach_alternative(html_content, 'text/html')
         msg.send()
-
