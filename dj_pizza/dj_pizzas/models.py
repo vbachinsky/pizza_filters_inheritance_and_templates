@@ -38,6 +38,14 @@ class Pizza(models.Model):
             count=count
         )
 
+    def get_serializer_pizza(self):
+        return {
+            'name': self.name,
+            'dough': self.dough.description,
+            'topping': self.topping.description,
+            'price': self.price,
+        }
+
 
 class InstancePizza(models.Model):
     pizza_template = models.ForeignKey(Pizza, related_name='pizza_template', on_delete=models.SET_NULL, null=True, blank=True)
@@ -65,6 +73,14 @@ class Order(models.Model):
     def update_price(self):
         self.price = sum([pizza.full_price for pizza in self.pizzas.all()])
         self.save()
+
+    def get_serializer_basket(self):
+        serializer_order = []
+        print('PIZZAS', self.pizzas, ' ID ', self.id)
+        for pizza in InstancePizza.objects.all().filter(order_template__user=self.user):
+            serializer_order.append({'name': pizza.name, 'count': pizza.count, 'price': pizza.price})
+        serializer_order.append({'user': self.user.email, 'full_price': self.price, 'date': self.date})
+        return serializer_order
 
 
 class Snack(models.Model):
