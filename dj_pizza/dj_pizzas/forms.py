@@ -88,6 +88,5 @@ class EditSnackForm(forms.ModelForm):
 class UpdateObject(forms.Form):
     price_change = forms.DecimalField(
         label='Введите ценовую поправку ',
-        max_digits=5, 
-        decimal_places=2
+        max_digits=5, decimal_places=2
     )
